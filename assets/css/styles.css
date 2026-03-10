@@ -1,0 +1,54 @@
+body {
+        background-color: #111111;
+        color: #f4eee8;
+        overflow-x: hidden;
+      }
+
+      /* Smooth interactions & Animations */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Glassmorphism Navigation */
+      .glass-nav {
+        background: rgba(17, 17, 17, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(184, 154, 106, 0.1);
+      }
+
+      /* Custom Slider transitions */
+      .slide-image {
+        transition:
+          opacity 1.2s ease-in-out,
+          transform 10s linear;
+      }
+      .slide-image.active {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+
+      /* Portfolio Grid FX */
+      .lux-card img {
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .lux-card:hover img {
+        transform: scale(1.05);
+      }
+
+      /* Custom Scrollbar for premium feel */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #111111;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #b89a6a;
+        border-radius: 10px;
+      }
