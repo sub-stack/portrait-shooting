@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="zh-HK" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumière Photography | 香港頂級人像攝影</title>
+
+    <!-- Fonts: Great Vibes (English Script), Noto Serif TC (Headings), Noto Sans TC (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ink: "#111111",
+              velvet: "#1E1715",
+              ivory: "#F4EEE8",
+              mist: "#C9C1BA",
+              gold: "#B89A6A",
+              rose: "#8E6B6B",
+            },
+            fontFamily: {
+              script: ['"Great Vibes"', "cursive"],
+              serif: ['"Noto Serif TC"', "serif"],
+              sans: ['"Noto Sans TC"', "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        background-color: #111111;
+        color: #f4eee8;
+        overflow-x: hidden;
+      }
+
+      /* Smooth interactions & Animations */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Glassmorphism Navigation */
+      .glass-nav {
+        background: rgba(17, 17, 17, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(184, 154, 106, 0.1);
+      }
+
+      /* Custom Slider transitions */
+      .slide-image {
+        transition:
+          opacity 1.2s ease-in-out,
+          transform 10s linear;
+      }
+      .slide-image.active {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+
+      /* Portfolio Grid FX */
+      .lux-card img {
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .lux-card:hover img {
+        transform: scale(1.05);
+      }
+
+      /* Custom Scrollbar for premium feel */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #111111;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #b89a6a;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased">
+    <!-- Navigation -->
+    <nav
+      id="main-nav"
+      class="fixed w-full z-50 transition-all duration-500 py-6 px-8 md:px-16 flex justify-between items-center"
+    >
+      <a
+        href="#"
+        class="text-2xl md:text-3xl font-serif tracking-[0.2em] uppercase text-ivory"
+      >
+        Lumière
+      </a>
+
+      <!-- Desktop Menu -->
+      <div
+        class="hidden md:flex space-x-12 text-xs tracking-widest uppercase items-center"
+      >
+        <a href="#about" class="hover:text-gold transition-colors">關於我們</a>
+        <a href="#services" class="hover:text-gold transition-colors"
+          >服務項目</a
+        >
+        <a href="#showcase" class="hover:text-gold transition-colors"
+          >作品展示</a
+        >
+        <a href="#locations" class="hover:text-gold transition-colors"
+          >門市據點</a
+        >
+        <a
+          href="#contact"
+          class="bg-gold/10 border border-gold/50 px-6 py-2 text-gold hover:bg-gold hover:text-ink transition-all duration-300"
+          >預約查詢</a
+        >
+      </div>
+
+      <!-- Mobile Toggle -->
+      <button
+        id="menu-toggle"
+        class="md:hidden text-ivory p-2 focus:outline-none"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M4 8h16M4 16h16"
+          ></path>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 bg-ink z-[60] flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-opacity duration-300"
+    >
+      <button id="menu-close" class="absolute top-8 right-8 text-gold">
+        <svg
+          class="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+      <a href="#about" class="text-2xl font-serif text-ivory mobile-nav-link"
+        >關於我們</a
+      >
+      <a href="#services" class="text-2xl font-serif text-ivory mobile-nav-link"
+        >服務項目</a
+      >
+      <a href="#showcase" class="text-2xl font-serif text-ivory mobile-nav-link"
+        >作品展示</a
+      >
+      <a
+        href="#locations"
+        class="text-2xl font-serif text-ivory mobile-nav-link"
+        >門市據點</a
+      >
+    </div>
+
+    <!-- Hero Section -->
+    <header
+      class="relative w-full h-screen overflow-hidden flex items-center justify-center"
+    >
+      <div id="slider" class="absolute inset-0 z-0">
+        <!-- Images via jQuery -->
+        <div class="absolute inset-0 bg-ink/40 z-10"></div>
+      </div>
+
+      <div class="relative z-20 text-center px-6">
+        <span
+          id="hero-script"
+          class="block font-script text-5xl md:text-8xl text-gold/80 mb-4 opacity-0"
+          >Timeless</span
+        >
+        <h1
+          id="hero-title"
+          class="text-3xl md:text-6xl font-serif text-ivory leading-tight mb-8 tracking-wide opacity-0"
+        >
+          定格你的光芒<br />成就專屬於你的肖像作品
+        </h1>
+        <div
+          id="hero-cta"
+          class="opacity-0 translate-y-4 transition-all duration-700 delay-500"
+        >
+          <a
+            href="#contact"
+            class="inline-block px-10 py-4 border border-ivory/30 text-ivory uppercase tracking-widest hover:border-gold hover:text-gold transition-all duration-500"
+          >
+            預約拍攝諮詢
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce text-gold/50"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 md:py-40 px-6">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div class="fade-in-up relative group">
+          <div
+            class="absolute -inset-4 border border-gold/20 translate-x-4 translate-y-4 z-0 group-hover:translate-x-6 group-hover:translate-y-6 transition-transform duration-700"
+          ></div>
+          <img
+            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=1200"
+            alt="Brand Story"
+            class="relative z-10 w-full grayscale-[50%] hover:grayscale-0 transition-all duration-1000 object-cover aspect-[4/5]"
+          />
+        </div>
+        <div class="fade-in-up delay-200">
+          <h4 class="text-gold font-script text-3xl mb-4">Our Philosophy</h4>
+          <h2
+            class="text-4xl md:text-5xl font-serif text-ivory mb-10 leading-snug"
+          >
+            我們相信，真正動人的肖像，<br />不只來自鏡頭，而來自被理解。
+          </h2>
+          <div
+            class="space-y-6 text-mist font-light leading-relaxed max-w-lg text-lg"
+          >
+            <p>
+              從造型、燈光到拍攝引導，我們專注每一個細節，只為讓你自在展現最美的一面。這不是一場死板的拍攝任務，而是一次發掘自我的旅程。
+            </p>
+            <p>
+              每一次快門，都是一次對記憶與情感的溫柔保存。我們在香港深耕多年，致力於將高雅的美學融入每一次拍攝，把回憶拍成能掛在牆上細看一生的藝術作品。
+            </p>
+          </div>
+          <div class="mt-12 flex items-center space-x-6">
+            <div class="w-20 h-[1px] bg-gold"></div>
+            <span class="text-xs uppercase tracking-widest text-gold font-serif"
+              >Est. 2018 | Hong Kong</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-velvet">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-24 fade-in-up">
+          <span class="text-gold font-script text-3xl mb-2 block"
+            >Our Expertise</span
+          >
+          <h2 class="text-4xl md:text-5xl font-serif text-ivory">
+            為你量身打造的拍攝體驗
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-12">
+          <!-- Service 1 -->
+          <div class="fade-in-up delay-100 group">
+            <div class="overflow-hidden mb-8 aspect-[3/4] lux-card">
+              <img
+                src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
+              />
+            </div>
+            <h3 class="text-2xl font-serif text-ivory mb-3">婚紗攝影</h3>
+            <p class="text-mist font-light mb-6 text-sm">
+              把承諾與愛意，拍成值得珍藏一生的畫面。我們提供棚內與戶外多種風格選擇。
+            </p>
+            <a
+              href="#contact"
+              class="text-gold text-xs tracking-widest uppercase border-b border-gold/30 pb-1 hover:border-gold transition-all"
+              >立即查詢</a
+            >
+          </div>
+
+          <!-- Service 2 -->
+          <div class="fade-in-up delay-200 group">
+            <div class="overflow-hidden mb-8 aspect-[3/4] lux-card">
+              <img
+                src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
+              />
+            </div>
+            <h3 class="text-2xl font-serif text-ivory mb-3">藝術寫真</h3>
+            <p class="text-mist font-light mb-6 text-sm">
+              以光影與造型，刻畫只屬於你的個人氣質。適合個人紀念、形象照或送給自己的禮物。
+            </p>
+            <a
+              href="#contact"
+              class="text-gold text-xs tracking-widest uppercase border-b border-gold/30 pb-1 hover:border-gold transition-all"
+              >立即查詢</a
+            >
+          </div>
+
+          <!-- Service 3 -->
+          <div class="fade-in-up delay-300 group">
+            <div class="overflow-hidden mb-8 aspect-[3/4] lux-card">
+              <img
+                src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=800"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
+              />
+            </div>
+            <h3 class="text-2xl font-serif text-ivory mb-3">家庭攝影</h3>
+            <p class="text-mist font-light mb-6 text-sm">
+              把陪伴、笑容與成長，留在未來仍會心動的影像裡。溫馨、自然、充滿互動的拍攝過程。
+            </p>
+            <a
+              href="#contact"
+              class="text-gold text-xs tracking-widest uppercase border-b border-gold/30 pb-1 hover:border-gold transition-all"
+              >立即查詢</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section id="showcase" class="py-24 px-6 bg-ink">
+      <div class="max-w-7xl mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-up"
+        >
+          <div>
+            <span class="text-gold font-script text-3xl mb-2 block"
+              >Portfolio</span
+            >
+            <h2 class="text-4xl font-serif text-ivory">影像藝廊</h2>
+          </div>
+          <a
+            href="#"
+            class="mt-8 md:mt-0 text-mist text-xs tracking-widest uppercase hover:text-gold transition-colors"
+            >瀏覽更多作品 &rarr;</a
+          >
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div class="space-y-4 md:space-y-6">
+            <img
+              src="https://images.unsplash.com/photo-1541250848049-b4f7141dca3f?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up"
+            />
+          </div>
+          <div class="space-y-4 md:space-y-6 pt-12 md:pt-24">
+            <img
+              src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up delay-100"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up delay-100"
+            />
+          </div>
+          <div class="space-y-4 md:space-y-6">
+            <img
+              src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up delay-200"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up delay-200"
+            />
+          </div>
+          <div class="space-y-4 md:space-y-6 pt-12 md:pt-24">
+            <img
+              src="https://images.unsplash.com/photo-1475823678248-624fc6f85785?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up delay-300"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=500"
+              class="w-full rounded-sm fade-in-up delay-300"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Locations -->
+    <section
+      id="locations"
+      class="py-24 px-6 bg-velvet border-t border-gold/10"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-20 fade-in-up">
+          <span class="text-gold font-script text-3xl mb-2 block"
+            >Our Studios</span
+          >
+          <h2 class="text-4xl md:text-5xl font-serif text-ivory">門市據點</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="p-10 bg-ink/50 border border-gold/10 hover:border-gold/30 transition-all text-center fade-in-up"
+          >
+            <h3 class="text-2xl font-serif text-ivory mb-4">中環旗艦店</h3>
+            <p class="text-mist text-sm font-light mb-6">
+              香港中環威靈頓街 99 號 8 樓
+            </p>
+            <p class="text-rose text-xs tracking-widest uppercase mb-8">
+              11:00 - 20:00 (週三休息)
+            </p>
+            <a href="#" class="text-gold text-xs border-b border-gold/20 pb-1"
+              >查看地圖</a
+            >
+          </div>
+          <div
+            class="p-10 bg-ink/50 border border-gold/10 hover:border-gold/30 transition-all text-center fade-in-up delay-100"
+          >
+            <h3 class="text-2xl font-serif text-ivory mb-4">尖沙咀影棚</h3>
+            <p class="text-mist text-sm font-light mb-6">
+              九龍尖沙咀廣東道 5 號 12 樓
+            </p>
+            <p class="text-rose text-xs tracking-widest uppercase mb-8">
+              10:00 - 19:00 (每日營業)
+            </p>
+            <a href="#" class="text-gold text-xs border-b border-gold/20 pb-1"
+              >查看地圖</a
+            >
+          </div>
+          <div
+            class="p-10 bg-ink/50 border border-gold/10 hover:border-gold/30 transition-all text-center fade-in-up delay-200"
+          >
+            <h3 class="text-2xl font-serif text-ivory mb-4">觀塘企劃室</h3>
+            <p class="text-mist text-sm font-light mb-6">
+              九龍觀塘海濱道 133 號 5 樓
+            </p>
+            <p class="text-rose text-xs tracking-widest uppercase mb-8">
+              11:00 - 20:00 (需預約)
+            </p>
+            <a href="#" class="text-gold text-xs border-b border-gold/20 pb-1"
+              >查看地圖</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-ink pt-32 pb-12 px-6">
+      <div
+        class="max-w-4xl mx-auto text-center border-b border-gold/10 pb-20 fade-in-up"
+      >
+        <h2 class="text-5xl font-serif text-ivory mb-8">預約您的專屬拍攝</h2>
+        <p class="text-mist font-light text-lg mb-12">
+          攝影顧問會為你安排合適的拍攝方案，定格此刻美好。
+        </p>
+        <a
+          href="https://wa.me/85200000000"
+          class="inline-flex items-center space-x-4 px-12 py-5 bg-gold text-ink font-serif text-xl hover:bg-ivory transition-all shadow-2xl shadow-gold/20"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"
+            />
+          </svg>
+          <span>WhatsApp 立即諮詢</span>
+        </a>
+      </div>
+
+      <div
+        class="max-w-7xl mx-auto mt-20 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.3em] uppercase text-mist/40"
+      >
+        <p>&copy; 2026 Lumière Photography Hong Kong. All Rights Reserved.</p>
+        <div class="flex space-x-8 mt-6 md:mt-0">
+          <a href="#" class="hover:text-gold transition-colors">Instagram</a>
+          <a href="#" class="hover:text-gold transition-colors">Facebook</a>
+          <a href="#" class="hover:text-gold transition-colors"
+            >Privacy Policy</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts: jQuery 3.7.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        /* 1. Hero Slider Logic */
+        const slides = [
+          {
+            img: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=1920",
+            script: "Timeless",
+            title: "定格你的光芒<br>成就專屬於你的肖像作品",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920",
+            script: "Elegant",
+            title: "每一刻凝望<br>都值得被優雅珍藏",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=1920",
+            script: "Distinctive",
+            title: "讓回憶不只停留<br>而是成為細看一生的作品",
+          },
+        ];
+
+        let currentSlide = 0;
+        const $slider = $("#slider");
+
+        // Pre-load images for smoother slide
+        slides.forEach((slide, i) => {
+          const activeClass = i === 0 ? "active" : "";
+          $slider.append(
+            `<img src="${slide.img}" class="slide-image absolute inset-0 w-full h-full object-cover opacity-0 z-0 ${activeClass}" id="slide-${i}">`,
+          );
+        });
+
+        function updateSlide() {
+          const slide = slides[currentSlide];
+
+          // Transition images
+          $(".slide-image")
+            .removeClass("active opacity-60")
+            .addClass("opacity-0");
+          $(`#slide-${currentSlide}`).addClass("active opacity-60");
+
+          // Animate text with staggered effect
+          $("#hero-script, #hero-title, #hero-cta").css({
+            opacity: 0,
+            transform: "translateY(20px)",
+          });
+
+          setTimeout(() => {
+            $("#hero-script").text(slide.script).animate({ opacity: 1 }, 800);
+            $("#hero-title").html(slide.title).animate({ opacity: 1 }, 800);
+            $("#hero-cta").animate({ opacity: 1 }, 800);
+
+            // Add subtle CSS transform via jQuery for that "floating" look
+            $("#hero-script, #hero-title, #hero-cta").css(
+              "transform",
+              "translateY(0)",
+            );
+          }, 400);
+
+          currentSlide = (currentSlide + 1) % slides.length;
+        }
+
+        updateSlide(); // Initial run
+        setInterval(updateSlide, 6000);
+
+        /* 2. Scroll Reveal Animations */
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                $(entry.target).addClass("visible");
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+
+        $(".fade-in-up").each(function () {
+          observer.observe(this);
+        });
+
+        /* 3. Navigation Scroll Effect */
+        $(window).on("scroll", function () {
+          if ($(window).scrollTop() > 100) {
+            $("#main-nav").addClass("glass-nav py-4").removeClass("py-6");
+          } else {
+            $("#main-nav").removeClass("glass-nav py-4").addClass("py-6");
+          }
+        });
+
+        /* 4. Mobile Menu Logic */
+        $("#menu-toggle").on("click", function () {
+          $("#mobile-menu").removeClass("opacity-0 pointer-events-none");
+        });
+
+        $("#menu-close, .mobile-nav-link").on("click", function () {
+          $("#mobile-menu").addClass("opacity-0 pointer-events-none");
+        });
+
+        /* 5. Smooth Scroll for links */
+        $('a[href^="#"]').on("click", function (e) {
+          e.preventDefault();
+          const target = this.hash;
+          const $target = $(target);
+          if ($target.length) {
+            $("html, body").animate(
+              {
+                scrollTop: $target.offset().top - 80,
+              },
+              1000,
+            );
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
